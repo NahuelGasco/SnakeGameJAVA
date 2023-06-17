@@ -8,13 +8,23 @@ import javax.swing.JFrame;
 
 public class MAME extends JFrame {
    
-    Contenedor contenedor = new Contenedor();   
+   pSnakeGame snake;
+   GameOverSNAKE gameOverSNAKE = new GameOverSNAKE();
     
     public MAME(){
-    
+        this.snake = new pSnakeGame(this);
+        
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.add(contenedor.getComponent(Contenedor.getPanelActivo()));
-        System.out.println(Contenedor.getPanelActivo());
+        this.add(snake);
+        this.pack();       
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);   
+        
+    }
+    
+    public void cambiarpanel(){
+    
+        this.add(gameOverSNAKE);
         this.pack();       
         this.setLocationRelativeTo(null);
         this.setVisible(true);   

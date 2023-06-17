@@ -11,6 +11,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.Timer;
 import javax.swing.JPanel;
 
@@ -23,7 +24,8 @@ public class pSnakeGame extends JPanel implements KeyListener, ActionListener {
     private final int totalCuadritosSizeA = (int) altoP / cuadradoSize;
     private final int totalCuadritosSizeL = (int) anchoP / cuadradoSize;
     private Timer timer;
-
+    MAME mame;
+    
     //Snake
     private final int tamañoTotalSnake = totalCuadritosSizeA * totalCuadritosSizeL;
     List<Snake> snake = new ArrayList<>();
@@ -38,7 +40,8 @@ public class pSnakeGame extends JPanel implements KeyListener, ActionListener {
         return jugando;
     }
 
-    public pSnakeGame() {
+    public pSnakeGame(JFrame frame) {
+        mame = (MAME) frame;
         this.setPreferredSize(new Dimension(anchoP, altoP));
         this.setBackground(Color.BLACK);
         this.setFocusable(true);
@@ -90,7 +93,7 @@ public class pSnakeGame extends JPanel implements KeyListener, ActionListener {
     }
 
     private void reaparicion(List<Snake> s) {
-        //System.out.println(s.get(0).getY());
+      
         if (s.get(0).getX() >= (totalCuadritosSizeL * cuadradoSize)) {
             s.get(0).setX(0);
         } else if (s.get(0).getX() < 0) {
@@ -188,15 +191,10 @@ public class pSnakeGame extends JPanel implements KeyListener, ActionListener {
             this.repaint();
         }else{
          this.setVisible(jugando);
-         Contenedor.cambiaValor(1);
-         System.out.println(Contenedor.getPanelActivo());
-         this.invalidate();
+         mame.cambiarpanel();
         } 
     }
     
-    
-   
-
     //TECLAS
     @Override
     public void keyPressed(KeyEvent e) {

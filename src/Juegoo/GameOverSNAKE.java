@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class GameOverSNAKE extends JPanel {
 
-    public boolean visibilidad = false;
+    public boolean visibilidad = true;
    
     public GameOverSNAKE() {
         

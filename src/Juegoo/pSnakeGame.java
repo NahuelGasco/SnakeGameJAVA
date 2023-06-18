@@ -1,6 +1,5 @@
 package Juegoo;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -25,31 +24,31 @@ public class pSnakeGame extends JPanel implements KeyListener, ActionListener {
     private final int totalCuadritosSizeL = (int) anchoP / cuadradoSize;
     private Timer timer;
     MAME mame;
-    
+
     //Snake
     private final int tamañoTotalSnake = totalCuadritosSizeA * totalCuadritosSizeL;
     List<Snake> snake = new ArrayList<>();
     private char direc = ' ';
     private boolean jugando = true;
-    
 
     //Manzana
     Manzana manzana = new Manzana(totalCuadritosSizeL, totalCuadritosSizeA, cuadradoSize);
 
-    public boolean isJugando() {
-        return jugando;
-    }
-
     public pSnakeGame(JFrame frame) {
         mame = (MAME) frame;
+        
+        //initJuego();
+    }
+
+    public void setJugando(boolean jugando) {
+        this.jugando = jugando;
+    }
+    
+    public void initJuego() {
         this.setPreferredSize(new Dimension(anchoP, altoP));
         this.setBackground(Color.BLACK);
         this.setFocusable(true);
         this.setVisible(true);
-        initJuego();
-    }
-
-    private void initJuego() {
         inicSnake(snake);
         manzana.doradaORoja(totalCuadritosSizeL, totalCuadritosSizeA, cuadradoSize, this.snake);
         this.addKeyListener(this);
@@ -83,17 +82,17 @@ public class pSnakeGame extends JPanel implements KeyListener, ActionListener {
     }
 
     private void colisionPersonal(List<Snake> snake) {
-        int i=1;
-        while( i< snake.size()-1){
-         if (snake.get(0).getX() == snake.get(i).getX() && snake.get(0).getY() == snake.get(i).getY()) {
-             this.jugando = false;
-         }
-         i++;
+        int i = 1;
+        while (i < snake.size() - 1) {
+            if (snake.get(0).getX() == snake.get(i).getX() && snake.get(0).getY() == snake.get(i).getY()) {
+                this.jugando = false;
+            }
+            i++;
         }
     }
 
     private void reaparicion(List<Snake> s) {
-      
+
         if (s.get(0).getX() >= (totalCuadritosSizeL * cuadradoSize)) {
             s.get(0).setX(0);
         } else if (s.get(0).getX() < 0) {
@@ -175,9 +174,7 @@ public class pSnakeGame extends JPanel implements KeyListener, ActionListener {
         for (int i = 0; i < this.snake.size(); i++) {
             g.drawImage(this.snake.get(i).getImagen().getImage(), this.snake.get(i).getX(), this.snake.get(i).getY(), cuadradoSize, cuadradoSize, null);
         }
-
         g.drawImage(manzana.getImagen().getImage(), manzana.getX(), manzana.getY(), cuadradoSize, cuadradoSize + 5, null);
-
     }
 
     //BUCLE DE ACCION
@@ -188,13 +185,16 @@ public class pSnakeGame extends JPanel implements KeyListener, ActionListener {
             reaparicion(this.snake);
             serpienteCreciendo(this.snake, manzana);
             colisionPersonal(this.snake);
-            this.repaint();
-        }else{
-         this.setVisible(jugando);
-         mame.cambiarpanel();
-        } 
+        } else {
+            this.setVisible(jugando);
+            timer.stop();
+            this.snake.clear();
+            this.direc = ' ';
+            mame.cambiarpanelGameOver();
+        }
+        this.repaint();
     }
-    
+
     //TECLAS
     @Override
     public void keyPressed(KeyEvent e) {

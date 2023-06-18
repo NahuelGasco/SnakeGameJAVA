@@ -7,27 +7,36 @@ import javax.swing.JFrame;
 
 
 public class MAME extends JFrame {
-   
-   pSnakeGame snake;
-   GameOverSNAKE gameOverSNAKE = new GameOverSNAKE();
     
+    pSnakeGame snake = new pSnakeGame(this);
+    GameOverSNAKE gameover = new GameOverSNAKE(this);
+   
     public MAME(){
-        this.snake = new pSnakeGame(this);
-        
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.add(snake);
+        snake.initJuego();
         this.pack();       
         this.setLocationRelativeTo(null);
         this.setVisible(true);   
         
     }
     
-    public void cambiarpanel(){
+    public void cambiarpanelGameOver(){
+       
+        this.add(gameover);   
+        gameover.setVisible(true);
+        gameover.requestFocus();
+    }
     
-        this.add(gameOverSNAKE);
-        this.pack();       
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);   
+     public void cambiarpanelJuegoSnake(){
+        
+        this.add(snake);
+        snake.initJuego();
+        snake.setJugando(true);
+        snake.setVisible(true);
+        snake.requestFocus();
+        
+        
     }
     
 }

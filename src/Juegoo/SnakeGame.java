@@ -1,5 +1,5 @@
-
 package Juegoo;
+
 
 
 public class SnakeGame {
